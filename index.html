@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김병찬 (KIM BYEONG CHAN) - 프로필</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PapaParse (구글 시트 CSV 파싱용) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom Scrollbar for the activities section */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300 opacity-0 -translate-y-10 z-50 pointer-events-none">
+        이메일 주소가 복사되었습니다.
+    </div>
+
+    <!-- Hero Header -->
+    <header class="bg-brand-900 text-white pt-20 pb-32 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1000 1000"><path fill="#ffffff" d="M141.5,500A358.5,358.5,0,1,1,500,858.5,358.9,358.9,0,0,1,141.5,500Zm645,0A286.5,286.5,0,1,0,500,786.5,286.8,286.8,0,0,0,786.5,500Zm-501.3,0A214.8,214.8,0,1,1,500,714.8,215,215,0,0,1,285.2,500Zm358,0A143.2,143.2,0,1,0,500,643.2,143.3,143.3,0,0,0,643.2,500Z"/></svg>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 tracking-tight fade-in" style="animation-delay: 0.1s;">김병찬</h1>
+            <p class="text-xl md:text-2xl text-brand-100 font-light mb-6 tracking-widest fade-in" style="animation-delay: 0.2s;">KIM BYEONG CHAN</p>
+            
+            <div class="inline-block bg-white/20 backdrop-blur-md rounded-full px-6 py-2 border border-white/30 mb-8 fade-in" style="animation-delay: 0.3s;">
+                <span class="font-medium text-lg"><i class="fas fa-briefcase mr-2"></i>현 가치있는 미래교육 연구소 대표</span>
+            </div>
+
+            <!-- Contact & Links -->
+            <div class="flex flex-wrap justify-center gap-4 fade-in" style="animation-delay: 0.5s;">
+                <button onclick="copyEmail('kbc792000@daum.net')" class="flex items-center gap-2 bg-white text-brand-900 px-5 py-2.5 rounded-lg font-medium hover:bg-brand-50 transition shadow-md">
+                    <i class="fas fa-envelope text-brand-600"></i>
+                    kbc792000@daum.net
+                    <i class="fas fa-copy ml-1 text-sm text-gray-400"></i>
+                </button>
+                <a href="https://edtouch.my.canva.site/koreaedu" target="_blank" class="flex items-center gap-2 bg-brand-600 text-white border border-brand-500 px-5 py-2.5 rounded-lg font-medium hover:bg-brand-500 transition shadow-md">
+                    <i class="fas fa-globe"></i>
+                    포트폴리오 웹사이트
+                    <i class="fas fa-external-link-alt ml-1 text-sm opacity-70"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 -mt-20 relative z-20 pb-20 max-w-6xl">
+        
+        <!-- Highlight / Book Section -->
+        <section class="mb-8 fade-in" style="animation-delay: 0.6s;">
+            <div class="glass-card rounded-2xl p-6 md:p-8 bg-gradient-to-r from-white to-brand-50 flex flex-col md:flex-row items-center gap-6">
+                <div class="bg-brand-100 text-brand-600 p-4 rounded-xl shrink-0">
+                    <i class="fas fa-book-open text-3xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-brand-600 mb-1 uppercase tracking-wider">저서 (Publication)</h2>
+                    <p class="text-xl md:text-2xl font-bold text-slate-800">MS팀즈로 소통하고 오피스365로 만드는 미래수업</p>
+                    <p class="text-slate-600 mt-2">마이크로소프트 혁신교육전문가(MIEE)로서 현장에서 활용 가능한 에듀테크 및 미래 교육 방향을 제시합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid Layout for Info -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            
+            <!-- Left Column -->
+            <div class="space-y-8">
+                <!-- Education -->
+                <section class="glass-card rounded-2xl p-6 md:p-8 fade-in" style="animation-delay: 0.7s;">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                        <i class="fas fa-graduation-cap text-2xl text-brand-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">학력사항</h2>
+                    </div>
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-2 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent hidden"></div>
+                    <div class="space-y-4" id="education-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Experience -->
+                <section class="glass-card rounded-2xl p-6 md:p-8 fade-in" style="animation-delay: 0.8s;">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                        <i class="fas fa-building text-2xl text-brand-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">경력사항</h2>
+                    </div>
+                    <div class="space-y-4" id="experience-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-8">
+                <!-- Certifications -->
+                <section class="glass-card rounded-2xl p-6 md:p-8 h-full fade-in" style="animation-delay: 0.9s;">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                        <i class="fas fa-certificate text-2xl text-brand-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">자격사항</h2>
+                    </div>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-3" id="certification-list">
+                        <!-- Populated by JS -->
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- Huge Timeline Section: Awards & Activities -->
+        <section class="glass-card rounded-2xl p-6 md:p-8 fade-in" style="animation-delay: 1.0s;">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-slate-200 pb-4">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-award text-2xl text-brand-500"></i>
+                    <h2 class="text-2xl font-bold text-slate-800">주요 수상 및 활동 사항</h2>
+                </div>
+                <div class="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                    최신순 정렬
+                </div>
+            </div>
+            
+            <!-- Scrollable Container -->
+            <div class="max-h-[600px] overflow-y-auto custom-scrollbar pr-4 -mr-4" id="activities-timeline">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center border-t border-slate-800">
+        <p>© <script>document.write(new Date().getFullYear())</script> KIM BYEONG CHAN. All rights reserved.</p>
+        <p class="text-sm mt-2">가치있는 미래교육 연구소</p>
+    </footer>
+
+    <!-- Data & Interaction Logic -->
+    <script>
+        // 1. Google Sheets 연결 설정
+        const SHEET_ID = '1EkMsT9Fkb_U7AiaEynwUW56CbOMYpbTUUpfbrpoQhIM';
+        
+        // 가져올 시트(탭) 이름 목록과 매칭되는 데이터 키값
+        const SHEETS = [
+            { name: '학력', key: 'education' },
+            { name: '경력', key: 'experience' },
+            { name: '자격', key: 'certifications' },
+            { name: '활동', key: 'activities' }
+        ];
+
+        // 2. Render Functions
+        function renderList(containerId, data, isCert = false) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; 
+            
+            if (data.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-sm p-4">등록된 데이터가 없습니다.</p>';
+                return;
+            }
+
+            data.forEach((item) => {
+                const el = document.createElement('div');
+                if(!isCert) {
+                    el.className = 'flex gap-4 items-start';
+                    el.innerHTML = `
+                        <div class="mt-1 bg-brand-100 text-brand-600 text-xs font-bold px-2 py-1 rounded whitespace-nowrap min-w-[120px] text-center">
+                            ${item.period}
+                        </div>
+                        <div class="text-slate-700 pt-0.5 leading-relaxed">
+                            ${item.detail}
+                        </div>
+                    `;
+                } else {
+                    el.className = 'flex gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100 items-center transition hover:bg-brand-50 hover:border-brand-100';
+                    el.innerHTML = `
+                        <i class="fas fa-check-circle text-brand-400 mt-0.5"></i>
+                        <div>
+                            <p class="text-slate-800 font-medium">${item.detail}</p>
+                            <p class="text-xs text-slate-400">${item.date}</p>
+                        </div>
+                    `;
+                }
+                container.appendChild(el);
+            });
+        }
+
+        function renderActivities(activitiesData) {
+            const container = document.getElementById('activities-timeline');
+            container.innerHTML = ''; 
+            
+            // 안전한 정렬 로직 (연도가 숫자가 아닌 글자일 경우의 오류 방지)
+            const years = Object.keys(activitiesData).sort((a, b) => {
+                const numA = parseInt(a);
+                const numB = parseInt(b);
+                if (!isNaN(numA) && !isNaN(numB)) return numB - numA;
+                return b.localeCompare(a);
+            }); 
+
+            if (years.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-sm p-4"><i class="fas fa-info-circle mr-1"></i> [활동] 시트에서 데이터를 찾을 수 없습니다. 시트명과 내용을 확인해주세요.</p>';
+                return;
+            }
+
+            years.forEach(year => {
+                const items = activitiesData[year];
+                const yearSection = document.createElement('div');
+                yearSection.className = 'mb-8 relative pl-6 border-l-2 border-brand-200 last:border-0 last:pb-0';
+                
+                let listHtml = items.map(item => `
+                    <li class="relative pl-6 py-3 border-b border-slate-100 last:border-0 group hover:bg-slate-50 rounded-r-lg transition-colors">
+                        <span class="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-brand-300 rounded-full group-hover:bg-brand-500 transition-colors"></span>
+                        <span class="text-slate-700">${item}</span>
+                    </li>
+                `).join('');
+
+                yearSection.innerHTML = `
+                    <div class="absolute -left-[17px] top-0 bg-brand-500 text-white text-sm font-bold px-2 py-1 rounded shadow-sm flex items-center justify-center min-w-[32px]">
+                        ${year}
+                    </div>
+                    <ul class="mt-2 space-y-1">
+                        ${listHtml}
+                    </ul>
+                `;
+                container.appendChild(yearSection);
+            });
+        }
+
+        // 3. 다중 구글 시트 데이터 가져오기 및 파싱
+        async function loadData() {
+            const containers = ['education-list', 'experience-list', 'certification-list', 'activities-timeline'];
+            containers.forEach(id => {
+                document.getElementById(id).innerHTML = '<div class="text-brand-500 animate-pulse text-sm font-medium"><i class="fas fa-spinner fa-spin mr-2"></i>데이터를 불러오는 중...</div>';
+            });
+
+            const resumeData = { education: [], experience: [], certifications: [], activities: {} };
+
+            try {
+                // 4개의 시트를 동시에 요청
+                const fetchPromises = SHEETS.map(sheet => {
+                    const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheet.name)}`;
+                    return fetch(sheetUrl)
+                        .then(res => res.text())
+                        .then(csvText => {
+                            return new Promise((resolve, reject) => {
+                                Papa.parse(csvText, {
+                                    header: true,
+                                    skipEmptyLines: true,
+                                    complete: function(results) {
+                                        resolve({ key: sheet.key, data: results.data });
+                                    },
+                                    error: reject
+                                });
+                            });
+                        });
+                });
+
+                const allResults = await Promise.all(fetchPromises);
+
+                // 파싱된 결과를 resumeData 객체에 분류하여 저장
+                allResults.forEach(result => {
+                    const { key, data } = result;
+                    
+                    data.forEach(row => {
+                        // 띄어쓰기로 인한 인식 오류를 막기 위해 유연하게 열(Column) 이름 찾기
+                        const keys = Object.keys(row);
+                        let periodKey = keys.find(k => k.replace(/\s/g, '') === '기간');
+                        let detailKey = keys.find(k => k.replace(/\s/g, '') === '내용');
+
+                        // '기간', '내용' 헤더를 못 찾았다면 강제로 1, 2번째 열 매칭 (분류 열이 남아있는 경우 대비)
+                        if (!periodKey || !detailKey) {
+                            if (keys.length >= 3) { 
+                                periodKey = keys[1]; // B열
+                                detailKey = keys[2]; // C열
+                            } else if (keys.length >= 2) {
+                                periodKey = keys[0]; // A열
+                                detailKey = keys[1]; // B열
+                            }
+                        }
+
+                        const period = periodKey ? (row[periodKey] || '').trim() : '';
+                        const detail = detailKey ? (row[detailKey] || '').trim() : '';
+
+                        if (!detail) return; // 내용이 비어있으면 건너뜀
+
+                        if (key === 'education') {
+                            resumeData.education.push({ period, detail });
+                        } else if (key === 'experience') {
+                            resumeData.experience.push({ period, detail });
+                        } else if (key === 'certifications') {
+                            resumeData.certifications.push({ date: period, detail });
+                        } else if (key === 'activities') {
+                            const year = period || '기타';
+                            if (!resumeData.activities[year]) {
+                                resumeData.activities[year] = [];
+                            }
+                            resumeData.activities[year].push(detail);
+                        }
+                    });
+                });
+
+                // 화면에 렌더링
+                renderList('education-list', resumeData.education);
+                renderList('experience-list', resumeData.experience);
+                renderList('certification-list', resumeData.certifications, true);
+                renderActivities(resumeData.activities);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                containers.forEach(id => {
+                    document.getElementById(id).innerHTML = '<p class="text-red-500 text-sm"><i class="fas fa-exclamation-circle mr-1"></i>데이터를 불러오는데 실패했습니다. 시트 이름이나 공유 설정을 확인해주세요.</p>';
+                });
+            }
+        }
+
+        // 4. Utils
+        function copyEmail(email) {
+            const el = document.createElement('textarea');
+            el.value = email;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const toast = document.getElementById('toast');
+            toast.classList.remove('opacity-0', '-translate-y-10');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', '-translate-y-10');
+            }, 2500);
+        }
+
+        // 5. Initialize
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
