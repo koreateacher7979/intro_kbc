@@ -316,7 +316,7 @@
                         .then(csvText => {
                             return new Promise((resolve, reject) => {
                                 Papa.parse(csvText, {
-                                    header: true,
+                                    header: false, // 컬럼 구조 변경에 완벽 대응하기 위해 배열 형태로 가져옴
                                     skipEmptyLines: true,
                                     complete: function(results) {
                                         resolve({ key: sheet.key, data: results.data });
@@ -332,28 +332,41 @@
                 // 파싱된 결과를 resumeData 객체에 분류하여 저장
                 allResults.forEach(result => {
                     const { key, data } = result;
+                    if (!data || data.length === 0) return;
                     
-                    data.forEach(row => {
-                        // 띄어쓰기로 인한 인식 오류를 막기 위해 유연하게 열(Column) 이름 찾기
-                        const keys = Object.keys(row);
-                        let periodKey = keys.find(k => k.replace(/\s/g, '') === '기간');
-                        let detailKey = keys.find(k => k.replace(/\s/g, '') === '내용');
+                    let periodCol = -1;
+                    let detailCol = -1;
+                    let startIndex = 0;
 
-                        // '기간', '내용' 헤더를 못 찾았다면 강제로 1, 2번째 열 매칭 (분류 열이 남아있는 경우 대비)
-                        if (!periodKey || !detailKey) {
-                            if (keys.length >= 3) { 
-                                periodKey = keys[1]; // B열
-                                detailKey = keys[2]; // C열
-                            } else if (keys.length >= 2) {
-                                periodKey = keys[0]; // A열
-                                detailKey = keys[1]; // B열
-                            }
+                    // 1. 헤더(제목) 유무 검사 (최대 2번째 줄까지 스캔)
+                    for (let i = 0; i < Math.min(2, data.length); i++) {
+                        const rowStr = data[i].map(c => String(c).replace(/\s/g, ''));
+                        const pIdx = rowStr.findIndex(c => c.includes('기간'));
+                        const dIdx = rowStr.findIndex(c => c.includes('내용'));
+                        
+                        if (pIdx !== -1 || dIdx !== -1) {
+                            periodCol = pIdx !== -1 ? pIdx : 0;
+                            detailCol = dIdx !== -1 ? dIdx : 1;
+                            startIndex = i + 1; // 제목 다음 줄부터 진짜 데이터
+                            break;
                         }
+                    }
 
-                        const period = periodKey ? (row[periodKey] || '').trim() : '';
-                        const detail = detailKey ? (row[detailKey] || '').trim() : '';
+                    // 2. 만약 헤더를 못 찾았다면, 열(Column) 개수를 기반으로 위치 자동 유추
+                    if (periodCol === -1 || detailCol === -1) {
+                        const cols = data[0].length;
+                        if (cols >= 3) { periodCol = 1; detailCol = 2; } // [분류, 기간, 내용] 형태일 경우
+                        else if (cols === 2) { periodCol = 0; detailCol = 1; } // [기간, 내용] 형태일 경우
+                        else { periodCol = 0; detailCol = 0; }
+                    }
 
-                        if (!detail) return; // 내용이 비어있으면 건너뜀
+                    for (let i = startIndex; i < data.length; i++) {
+                        const row = data[i];
+                        let period = row[periodCol] ? String(row[periodCol]).trim() : '';
+                        let detail = row[detailCol] ? String(row[detailCol]).trim() : '';
+
+                        if (!detail && period) { detail = period; period = ''; }
+                        if (!detail) continue; // 완전히 빈 데이터는 건너뜀
 
                         if (key === 'education') {
                             resumeData.education.push({ period, detail });
@@ -362,13 +375,16 @@
                         } else if (key === 'certifications') {
                             resumeData.certifications.push({ date: period, detail });
                         } else if (key === 'activities') {
-                            const year = period || '기타';
+                            // 연도가 2025.10 처럼 되어있어도 자동으로 앞의 연도(2025)만 추출하여 묶음
+                            const yearMatch = period.match(/^20\d{2}/);
+                            const year = yearMatch ? yearMatch[0] : (period || '기타');
+                            
                             if (!resumeData.activities[year]) {
                                 resumeData.activities[year] = [];
                             }
                             resumeData.activities[year].push(detail);
                         }
-                    });
+                    }
                 });
 
                 // 화면에 렌더링
