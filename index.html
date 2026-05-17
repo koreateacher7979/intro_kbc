@@ -306,10 +306,12 @@
             const resumeData = { education: [], experience: [], certifications: [], activities: {} };
 
             try {
-                // 4개의 시트를 동시에 요청
+                // 4개의 시트를 동시에 요청 (캐시 방지를 위해 현재 시간 추가)
                 const fetchPromises = SHEETS.map(sheet => {
-                    const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheet.name)}`;
-                    return fetch(sheetUrl)
+                    const noCache = new Date().getTime(); // 캐시 방지용 타임스탬프
+                    const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheet.name)}&t=${noCache}`;
+                    
+                    return fetch(sheetUrl, { cache: "no-store" }) // 브라우저 캐시 무시 강제
                         .then(res => res.text())
                         .then(csvText => {
                             return new Promise((resolve, reject) => {
